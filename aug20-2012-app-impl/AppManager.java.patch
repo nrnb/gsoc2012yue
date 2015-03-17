@@ -1,0 +1,22 @@
+Index: src/main/java/org/cytoscape/app/internal/manager/AppManager.java
+===================================================================
+--- src/main/java/org/cytoscape/app/internal/manager/AppManager.java	(revision 29825)
++++ src/main/java/org/cytoscape/app/internal/manager/AppManager.java	(working copy)
+@@ -148,9 +148,16 @@
+ 		this.appListeners = new HashSet<AppsChangedListener>();
+ 
+ 		// Install previously enabled apps
+-		installAppsInDirectory(new File(getKarafDeployDirectory()), false);
++		File karafDeployDirectory = new File(getKarafDeployDirectory());
++		if (!karafDeployDirectory.exists()) {
++			//karafDeployDirectory.mkdirs();
++		}
++		//System.out.println("karaf: " + karafDeployDirectory.getAbsolutePath());
++		
++		installAppsInDirectory(karafDeployDirectory, false);
+ 		installAppsInDirectory(new File(getInstalledAppsPath()), true);
+ 		
++		//System.out.println(System.getProperties().get("user.dir"));
+ 		// Load apps from the "uninstalled apps" directory
+ 		Set<App> uninstalledApps = obtainAppsFromDirectory(new File(getUninstalledAppsPath()), true);
+ 		apps.addAll(uninstalledApps);

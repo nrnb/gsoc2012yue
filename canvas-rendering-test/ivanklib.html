@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="http://lib.ivank.net/ivank.js"></script>
+    <script type="text/javascript">
+         var stage;
+         var dragged = null;
+         
+         function Start()
+          {
+               stage = new Stage("c");
+               
+               var bd = new BitmapData("http://lib.ivank.net/demos/ball.png", 1);
+               for(var i=0; i<200; i++)
+               {
+                    var b = new Bitmap(bd);
+                    b.x = Math.random()*900;
+                    b.y = Math.random()*500;
+                    b.buttonMode = true;
+                    b.alpha = 0.7;
+                    stage.addChild(b);
+                    
+                    b.addEventListener(MouseEvent.MOUSE_OVER, onMOv);
+                    b.addEventListener(MouseEvent.MOUSE_OUT , onMOu);
+                    b.addEventListener(MouseEvent.MOUSE_DOWN, onMD );
+                    b.addEventListener(MouseEvent.MOUSE_UP  , onMU );
+               }
+               stage.addEventListener(MouseEvent.MOUSE_MOVE, onMM );
+          }
+          
+          function onMOv(e){ e.target.alpha = 1;   }
+          function onMOu(e){ e.target.alpha = 0.7; }
+          function onMD (e){ dragged = e.target;   }
+          function onMU (e){ dragged = null;       }
+          function onMM (e)
+          {
+               if(dragged == null) return;
+               dragged.x = stage.mouseX - dragged.mouseX;
+               dragged.y = stage.mouseY - dragged.mouseY;
+          }
+     </script>
+</head>
+<body onload="Start();"><canvas id="c"></canvas></body>
+</html>
